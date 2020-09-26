@@ -1,13 +1,12 @@
 import React, { useReducer } from 'react';
 import { useStateValue } from '../providers/StateProvider';
-import reducer, {initialState} from '../reducers/stateReducer';
 import '../style/CheckoutProduct.css'
 
 
-const CheckoutProduct = ({ id, image, title, price, rating }) => {
+const CheckoutProduct = ({ id, image, title, price, rating, hideButton }) => {
     
     const [{basket}, dispatch] = useStateValue()
-    console.log(basket)
+    
     const removeFromBasket = () => {
         
         // remove the item from the basket
@@ -25,19 +24,21 @@ const CheckoutProduct = ({ id, image, title, price, rating }) => {
             src={image} alt='product'
             />
             <div className='checkout-product-info'>
-                <p className='checkout-prouduct-title'>{title}</p>
+                <p className='checkout-prouduct-title'><span>{title}</span></p>
                 <p className='checkout-prouduct-price'>
                     <small>$</small>
                     <strong>{price}</strong>
                 </p>
-            <div className='checkout-product-rating'>
-                {Array(rating)
-                .fill()
-                .map((_, i) => (
-                    <span key={i} role="img" aria-label='star-rating'>⭐️</span>
-                ))}
-            </div>
-            <button onClick={removeFromBasket}>Remove from Basket</button>
+                <div className='checkout-product-rating'>
+                    {Array(rating)
+                    .fill()
+                    .map((_, i) => (
+                        <span key={i} role="img" aria-label='star-rating'>⭐️</span>
+                    ))}
+                </div>
+            {!hideButton && (
+                <button onClick={removeFromBasket}><span>Remove from Basket</span></button>
+            )}
             </div>
         </div>
     );

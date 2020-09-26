@@ -2,10 +2,12 @@
     display: flex;
     margin-top: 20px;
     margin-bottom: 20px;
+    
 }
 
 .checkout-product-info {
     padding-left: 20px;
+    flex: 1;
 }
 
 .checkout-product-info > button {
@@ -14,6 +16,7 @@
     margin-top: 10px;
     border-color: #a88734 #9c7e31 #846a29;
     color: #111;
+    text-align: center;
 }
 
 .checkout-product-image {
@@ -29,4 +32,5 @@
 .checkout-product-title {
     font-size: 17px;
     font-weight: 800;
+
 }

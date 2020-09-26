@@ -15,7 +15,7 @@ function CheckOut(props) {
                 />
                 <div>
                     <h2 className='checkout-title'>
-                        {user? user + "'s shopping basket" : "Guest's shopping basket"}
+                        {user? user.email + "'s shopping basket" : "Guest's shopping basket"}
                     </h2>
                     {basket.map((item) => (
                         <CheckoutProduct

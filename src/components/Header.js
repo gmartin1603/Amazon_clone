@@ -32,20 +32,21 @@ function Header(props) {
                 <Link to='/login'>
                 <div className='header-option' onClick={handleAuth}>
                   <span className='header-option-lineOne'>
-                    {user? 'Hi, ' + user : 'Hello Guest'}</span>
+                    {user? 'Hi, ' + user.email : 'Hello Guest'}</span>
 
                     <span className='header-option-lineTwo'>
                     {user? 'Sign Out' : 'Sign In'} </span>  
                 </div>
                 </Link>
-
+                <Link to= '/orders'>
                 <div className='header-option'>
                 <span className='header-option-lineOne'>
-                    Returns</span>
+                    Returns &</span>
 
                     <span className='header-option-lineTwo'>
-                    & Orders</span> 
+                     Orders</span> 
                 </div>
+                </Link> 
 
                 <div className='header-option'>
                 <span className='header-option-lineOne'>

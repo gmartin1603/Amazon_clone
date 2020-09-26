@@ -1,16 +1,11 @@
 import React from 'react';
 import '../style/Prouduct.css'
 import { useStateValue } from '../providers/StateProvider';
-import { AnimationWrapper, useHover } from 'react-hover-animation'
 
 function Prouduct({title, price, image, rating, id}) {
 
     const [basket, dispatch] = useStateValue()
-    const { spring, animated, setHover } = useHover({
-        animationConfig : {
-            duration: 200
-        }
-    })
+    
     const addToBasket = () => {
         console.log('clicked')
         //dispatch action
@@ -28,13 +23,7 @@ function Prouduct({title, price, image, rating, id}) {
 
     return (
             
-        <animated.div className='product' 
-        style={spring} 
-        onPointerOver={() => {
-            setHover(true)
-        }} onPointerOut={() => {
-            setHover(false)
-        }}>
+        <div className="product">
             <p>{title}</p>
             <p className='product-price'>
                 <small>$</small>
@@ -55,7 +44,8 @@ function Prouduct({title, price, image, rating, id}) {
             src={image}/>
             
             <button onClick={addToBasket}>Add to Basket</button>
-        </animated.div>
+            </div>
+        
         
     );
 }
