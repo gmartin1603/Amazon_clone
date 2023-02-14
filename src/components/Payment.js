@@ -8,11 +8,12 @@ import CheckoutProduct from './CheckoutProduct';
 import {getBasketTotal} from '../reducers/stateReducer'
 import axios from '../axios'
 import {db} from '../firebase'
+import { setDoc, collection, doc, addDoc } from 'firebase/firestore';
 
 
 function Payment(props) {
     const [{basket, user} , dispatch] = useStateValue()
-    
+
     const stripe = useStripe()
     const elements = useElements()
     const history = useHistory()
@@ -21,50 +22,61 @@ function Payment(props) {
     const [processing, setProcessing] = useState('')
     const [error, setError] = useState(null)
     const [disabled, setDisabled] = useState(true)
-    const [clientSecret, setClientSecret] = useState(true)
+    const [clientSecret, setClientSecret] = useState('')
 
-    useEffect(() => {
-        const getClientSecret = async () => {
-            const response = await axios({
-                method: 'post',
-                url: `/payments/create?total=${getBasketTotal(basket) * 100}`
-            })
-            setClientSecret(response.data.clientSecret)
-        }
+    // useEffect(() => {
+    //     const getClientSecret = async () => {
+    //         const response = await axios({
+    //             method: 'post',
+    //             url: `/payments/create?total=${getBasketTotal(basket) * 100}`
+    //         })
+    //         setClientSecret(response.data.clientSecret)
+    //     }
 
-        getClientSecret()
-    }, [basket])
+    //     getClientSecret()
+    //     console.log('The client secret is ', clientSecret)
+    // }, [basket])
 
-    console.log('The client secret is ', clientSecret)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setProcessing(true)
 
-        const payload = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: elements.getElement(CardElement)
-            }
-        }).then(({ paymentIntent }) => {
-
-            db.collection('users')
-            .doc(user?.uid)
-            .collection('orders')
-            .doc(paymentIntent.id)
-            .set({
+        // await stripe.confirmCardPayment(clientSecret, {
+        //     payment_method: {
+        //         card: elements.getElement(CardElement)
+        //     }
+        // }).then(({ paymentIntent }) => {
+            // add order to firestore
+            const docRef = doc(db, "users", user?.uid)
+            const colRef = collection(docRef, "orders")
+            await addDoc(colRef, {
                 basket: basket,
-                amount: paymentIntent.amount,
-                created: paymentIntent.created
+                created: new Date().getTime()
+            })
+            // db.collection('users')
+            // .doc(user?.uid)
+            // .collection('orders')
+            // .doc(new Date().getTime())
+            // .set({
+            //     basket: basket,
+                // amount: paymentIntent.amount,
+                // created: paymentIntent.created
+            // })
+            .then(() => {
+                setSucceeded(true)
+                setError(null)
+                setProcessing(false)
+                dispatch({
+                    type:'EMPTY_BASKET',
+                })
+                history.replace('/orders')
+            })
+            .catch((error) => {
+                console.log(error)
             })
 
-            setSucceeded(true)
-            setError(null)
-            setProcessing(false)
-            dispatch({
-                type:'EMPTY_BASKET',
-            })
-            history.replace('/orders')
-        })
+        // })
     }
 
     const handleChange = (e) => {
@@ -77,18 +89,18 @@ function Payment(props) {
            <div className="payment-container">
                <h1>
                    Checkout (<Link to='/checkout'>
-                    {basket?.length} items   
+                    {basket?.length} items
                     </Link>)
                </h1>
                <div className="payment-section">
                     <div className="payment-title">
                         <h3>Delivery Address</h3>
-                    </div> 
+                    </div>
                     <div className="payment-address">
                         <p>{user?.email}</p>
-                        <p>123 React Ln</p>    
-                        <p>Hiawatha, IA 52233</p>    
-                    </div>   
+                        <p>123 React Ln</p>
+                        <p>Hiawatha, IA 52233</p>
+                    </div>
                </div>
                <div className="payment-section">
                     <div className="payment-title">
@@ -104,7 +116,7 @@ function Payment(props) {
                                     rating={item.rating}
                                 />
                                 ))}
-                            
+
                         </div>
                     </div>
                </div>
@@ -121,14 +133,14 @@ function Payment(props) {
                                 renderText = {(value) => (
                                     <h3>Order Total: {value}</h3>
                                     )
-                                    
+
                                 }
                                 decimalScale={2}
                                 value={getBasketTotal(basket)}
                                 displayType={'text'}
                                 thousandSeparator={true}
                                 prefix={'$'}
-                            /> 
+                            />
                             <button id="check-out-button" disabled={processing || disabled || succeeded}>
                             <span>{processing? <p>Processing</p> : "Buy Now"}</span>
                             </button>

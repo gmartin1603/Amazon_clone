@@ -1,19 +1,40 @@
-import firebase from 'firebase'
+import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import firebaseConfig from './private/config'
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBXDSYhx-m4dtIPMllUEaWNR-cIIuwbAkc",
-    authDomain: "clone-8b1b2.firebaseapp.com",
-    databaseURL: "https://clone-8b1b2.firebaseio.com",
-    projectId: "clone-8b1b2",
-    storageBucket: "clone-8b1b2.appspot.com",
-    messagingSenderId: "773468396177",
-    appId: "1:773468396177:web:e87fb88c284192326bbd30",
-    measurementId: "G-9XJVF7XLEL"
-  }
+const app = initializeApp(firebaseConfig);
 
-const firebaseApp = firebase.initializeApp(firebaseConfig)
+// ****** Start Firebase Authentication ****** //
+const auth = getAuth(app)
 
-const db = firebaseApp.firestore()
-const auth = firebase.auth()
+export const signIn = (email, password) => {
+    console.log("SignIn")
+  signInWithEmailAndPassword(auth, email, password)
+  .then(auth => {
+      if (auth) {
+          console.log(auth)
+      }
+  }).catch(
+      error => alert(error)
+  )
+}
+
+export const register = (email, password) => {
+  createUserWithEmailAndPassword(auth, email, password)
+  .then((auth) => {
+      console.log(auth)
+      if (auth){
+          return true
+      }
+  }).catch(
+      err => alert(err)
+  )
+}
+// ****** End Firebase Authentication ****** //
+
+// ****** Start Firebase Firestore ****** //
+const db = getFirestore(app)
+// ****** End Firebase Firestore ****** //
 
 export {db, auth}

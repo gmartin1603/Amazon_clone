@@ -11,6 +11,7 @@ import Payment from './Payment';
 import {Elements} from '@stripe/react-stripe-js'
 import {loadStripe} from '@stripe/stripe-js'
 import Orders from './Orders';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const promise = loadStripe(
   'pk_test_51HVAOYCknLcIQLHTS2B2Q92xJo7fhkfxKSlGrzrIqpYGSWWPvMh92yOHxFAu3CjbfWiGxpMAoYZWvjyTaBYuToQC00XPXXItVP'
@@ -19,7 +20,7 @@ const promise = loadStripe(
 function App() {
   const [state, dispatch] = useStateValue()
   useEffect(() => {
-    auth.onAuthStateChanged(authUser => {
+    onAuthStateChanged(auth,(authUser) => {
       if (authUser) {
         //logged in
         dispatch({

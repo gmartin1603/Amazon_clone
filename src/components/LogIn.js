@@ -3,6 +3,7 @@ import '../style/LogIn.css'
 import {Link} from 'react-router-dom'
 import { auth } from '../firebase';
 import {useHistory} from 'react-router-dom'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 function LogIn(props) {
     const history = useHistory()
@@ -11,7 +12,7 @@ function LogIn(props) {
 
     const signIn = (e) => {
         e.preventDefault()
-        auth.signInWithEmailAndPassword(email, password)
+        signInWithEmailAndPassword(auth, email, password)
         .then(auth => {
             history.push('/')
         }).catch(
@@ -21,10 +22,10 @@ function LogIn(props) {
 
     const register = (e) => {
         e.preventDefault()
-        auth.createUserWithEmailAndPassword(email, password)
-        .then((auth) => {
-            console.log(auth)
-            if (auth){
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((authObj) => {
+            console.log(authObj)
+            if (authObj){
                 history.push('/')
             }
         }).catch(
@@ -34,14 +35,14 @@ function LogIn(props) {
 
     return (
         <div className='login'>
-        <Link to='/'>
-          <img 
-          className='login-logo'
-          src='http://pngimg.com/uploads/amazon/amazon_PNG24.png'
-          alt='logo'
-          />  
-        </Link>
         <div className='login-container'>
+            <Link to='/'>
+            <img
+            className='login-logo'
+            src='http://pngimg.com/uploads/amazon/amazon_PNG24.png'
+            alt='logo'
+            />
+            </Link>
             <h1>Sign In</h1>
             <form>
                 <h5>Email</h5>

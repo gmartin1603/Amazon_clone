@@ -7,21 +7,21 @@ function Home(props) {
     return (
         <div className='home'>
             <div className='home-container'>
-                <img 
+                <img
                 className='home-image'
-                alt='prime banner' 
+                alt='prime banner'
                 src="https://i.gadgets360cdn.com/large/amazon_best_tv_march_2020_1585384758649.jpg?downsize=950:*&output-quality=80"
                 />
                 <div className='home-row'>
-                    
+
                     <Prouduct
                     id='4515346'
-                    title="The Lean Startup: How Today's Entrepreneurs Use Continuous Innovation to Create Radically Successful Businesses [By ER]-[Paperback] Paperback – January 1, 2001"
+                    title="The Lean Startup: How Today's Entrepreneurs Use Continuous Innovation to Create Radically Successful Businesses [By ER]-[Paperback] Paperback - January 1, 2001"
                     price={29.99}
                     image='https://images-na.ssl-images-amazon.com/images/I/41Ag4WE7uyL._AC_UL160_.jpg'
                     rating={5}
                     />
-                    
+
                     <Prouduct
                     id='4515355'
                     title='TP-Link AC1750 Smart WiFi Router - Dual Band Gigabit Wireless Internet Router for Home, Works with Alexa, VPN Server, Parental Control&QoS (Archer A7)'
@@ -64,7 +64,7 @@ function Home(props) {
                     rating={5}
                     />
                 </div>
-                
+
             </div>
         </div>
     );
