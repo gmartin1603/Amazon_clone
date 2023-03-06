@@ -54,15 +54,6 @@ function Payment(props) {
                 basket: basket,
                 created: new Date().getTime()
             })
-            // db.collection('users')
-            // .doc(user?.uid)
-            // .collection('orders')
-            // .doc(new Date().getTime())
-            // .set({
-            //     basket: basket,
-                // amount: paymentIntent.amount,
-                // created: paymentIntent.created
-            // })
             .then(() => {
                 setSucceeded(true)
                 setError(null)

@@ -3,7 +3,7 @@
     flex-direction: column;
     background-color: white;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-around;
     margin: 10px;
     padding: 20px;
     width: min-content;
@@ -25,11 +25,16 @@
 }
 
 .product > button {
+    cursor: pointer;
     background: #f0c14b;
     border: 1px solid;
     margin-top: 10px;
     border-color: #a88734 #9c7e31 #846a29;
     color: #111;
 
+}
+
+.product > button:hover {
+    background: #ddb347;
 }
 

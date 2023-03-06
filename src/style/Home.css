@@ -1,6 +1,6 @@
 .home {
+    background-color: rgb(19, 25, 33, 0.6);
     display: flex;
-    /* justify-content: center; */
     margin-left: auto;
     margin-right: auto;
     width: 100%
@@ -9,9 +9,8 @@
 .home-container {
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-    justify-content: center;
-    margin-bottom: 100px;
+    align-items: center;
+    margin-bottom: 1%;
     width: 100%;
     max-width: 1500px;
 }
@@ -28,7 +27,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 50%;
+    height: 20%;
     z-index: -1;
     margin-bottom: -150px;
     mask-image: linear-gradient( to bottom, rgba(0, 0, 0, 1),
