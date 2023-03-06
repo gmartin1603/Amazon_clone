@@ -24,35 +24,38 @@ function Payment(props) {
     const [disabled, setDisabled] = useState(true)
     const [clientSecret, setClientSecret] = useState('')
 
-    // useEffect(() => {
-    //     const getClientSecret = async () => {
-    //         const response = await axios({
-    //             method: 'post',
-    //             url: `/payments/create?total=${getBasketTotal(basket) * 100}`
-    //         })
-    //         setClientSecret(response.data.clientSecret)
-    //     }
+    useEffect(() => {
+        const getClientSecret = async () => {
+            const response = await axios({
+                method: 'post',
+                url: `/payments/create?total=${getBasketTotal(basket) * 100}`
+            })
+            setClientSecret(response.data.clientSecret)
+        }
 
-    //     getClientSecret()
-    //     console.log('The client secret is ', clientSecret)
-    // }, [basket])
+        getClientSecret()
+        console.log('The client secret is ', clientSecret)
+    }, [basket])
 
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setProcessing(true)
+        const total = getBasketTotal(basket) * 100
 
         // await stripe.confirmCardPayment(clientSecret, {
         //     payment_method: {
         //         card: elements.getElement(CardElement)
         //     }
         // }).then(({ paymentIntent }) => {
+        //     console.log(paymentIntent)
             // add order to firestore
             const docRef = doc(db, "users", user?.uid)
             const colRef = collection(docRef, "orders")
             await addDoc(colRef, {
                 basket: basket,
-                created: new Date().getTime()
+                created: new Date().getTime(),
+                amount: total
             })
             .then(() => {
                 setSucceeded(true)
